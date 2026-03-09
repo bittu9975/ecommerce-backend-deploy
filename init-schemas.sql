@@ -1,0 +1,3 @@
+CREATE SCHEMA IF NOT EXISTS auth_schema;
+CREATE SCHEMA IF NOT EXISTS product_schema;
+CREATE SCHEMA IF NOT EXISTS commerce_schema;

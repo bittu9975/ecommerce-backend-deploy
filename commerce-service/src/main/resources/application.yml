@@ -1,0 +1,68 @@
+server:
+  port: ${SERVER_PORT:8083}
+
+spring:
+  application:
+    name: commerce-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ecommerce}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 30000
+      connection-init-sql: CREATE SCHEMA IF NOT EXISTS commerce_schema
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: ${SPRING_REDIS_PORT:6379}
+      timeout: 60000
+
+jwt:
+  secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+# Product Service URL for cart → product validation calls
+product-service:
+  url: ${PRODUCT_SERVICE_URL:http://localhost:8082}/api/products
+
+# Cart settings
+cart:
+  ttl: ${CART_TTL:86400}
+  max-items: ${CART_MAX_ITEMS:50}
+
+# Payment mock settings
+payment:
+  mock:
+    enabled: ${PAYMENT_MOCK_ENABLED:true}
+    success-rate: ${PAYMENT_MOCK_SUCCESS_RATE:90}
+
+# Notification settings
+notification:
+  email:
+    from: ${NOTIFICATION_EMAIL_FROM:noreply@ecommerce.com}
+    enabled: ${NOTIFICATION_EMAIL_ENABLED:true}
+  sms:
+    enabled: ${NOTIFICATION_SMS_ENABLED:true}
+
+logging:
+  level:
+    com.ecommerce: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
